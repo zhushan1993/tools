@@ -1,0 +1,18 @@
+# PDF OCR 工具依赖
+# Python 依赖
+pdf2image>=1.16.0
+pytesseract>=0.3.10
+Pillow>=9.0.0  # 图片处理
+
+# 系统依赖 (Ubuntu/Debian):
+# sudo apt-get install tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-chi-tra poppler-utils
+#
+# macOS:
+# brew install tesseract tesseract-lang poppler
+#
+# Windows:
+# 下载安装 Tesseract: https://github.com/UB-Mannheim/tesseract/wiki
+# 下载安装 Poppler: https://github.com/oschwartz10612/poppler-windows/releases
+
+# 注意: 本工具使用 pdftoppm 和 tesseract 命令行工具
+# Python 库作为备选方案提供

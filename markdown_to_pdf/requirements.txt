@@ -1,0 +1,12 @@
+# markdown_to_pdf 工具依赖
+# Python 依赖
+markdown>=3.5
+weasyprint>=59.0
+
+# 系统依赖 (Ubuntu/Debian):
+# sudo apt-get install libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+#
+# macOS:
+# brew install cairo pango gdk-pixbuf libffi
+
+# 注意: weasyprint 需要上述系统库才能正常工作

@@ -1,0 +1,92 @@
+PDF手写体识别工具
+==================
+
+## 注意
+当前虚拟环境已重新创建。使用前请安装必要的Python依赖：
+
+```bash
+source ../venv/bin/activate
+pip install -r requirements.txt
+```
+
+如需使用Tesseract引擎，请先安装系统依赖：
+```bash
+sudo apt-get install tesseract-ocr tesseract-ocr-chi-sim
+```
+
+## 功能
+将PDF扫描件中的手写文本识别并保存为Markdown文件，特别优化中文手写体识别。
+
+## 使用方法
+
+### 方法1：使用运行脚本（推荐）
+```bash
+./run.sh 输入.pdf 输出.md
+```
+
+### 方法2：手动激活虚拟环境
+```bash
+# 激活虚拟环境（位于父目录）
+source ../venv/bin/activate
+
+# 运行识别
+python handwrite_pdf_to_md.py 输入.pdf 输出.md
+
+# 完成后退出虚拟环境
+deactivate
+```
+
+## 示例
+
+```bash
+# 识别当前目录下的PDF文件
+./run.sh input.pdf output.md
+
+# 使用Tesseract引擎（如果PaddleOCR不可用）
+./run.sh input.pdf output.md --engine tesseract
+
+# 设置更高DPI以提高质量
+./run.sh input.pdf output.md --dpi 400
+```
+
+## 系统依赖
+
+### Linux (Ubuntu/Debian)
+```bash
+sudo apt-get install poppler-utils
+```
+
+### macOS
+```bash
+brew install poppler
+```
+
+### 可选：Tesseract支持
+```bash
+# Linux
+sudo apt-get install tesseract-ocr tesseract-ocr-chi-sim
+
+# macOS
+brew install tesseract tesseract-lang
+```
+
+## 注意事项
+
+1. 首次使用PaddleOCR时会自动下载模型文件（约100MB）
+2. 手写体识别准确率受 handwriting quality、图像质量影响
+3. 对于重要文档，建议人工校对识别结果
+4. 默认使用PaddleOCR引擎，如需使用Tesseract请添加 `--engine tesseract` 参数
+
+## 文件说明
+
+- `handwrite_pdf_to_md.py` - 主程序脚本
+- `run.sh` - 便捷运行脚本
+- `../venv/` - Python虚拟环境（位于父目录）
+- `requirements.txt` - Python依赖列表
+
+## 帮助信息
+```bash
+./run.sh --help
+```
+
+生成时间: 2026-04-07

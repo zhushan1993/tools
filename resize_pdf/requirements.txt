@@ -1,0 +1,6 @@
+# resize_pdf 工具依赖
+# Python 依赖
+pypdf>=4.0.0
+
+# 注意: resize_pdf.py 使用 pypdf 库处理 PDF 文件
+# 安装: pip install -r requirements.txt

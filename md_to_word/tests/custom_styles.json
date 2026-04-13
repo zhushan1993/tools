@@ -1,0 +1,21 @@
+{
+  "markdown_to_style": {
+    "# ": "文档标题",
+    "## ": "一级标题",
+    "### ": "二级标题",
+    "#### ": "三级标题",
+    "普通段落": "缩进正文",
+    "表格单元格": "表文字",
+    "无序列表": "List Paragraph",
+    "有序列表": "List Paragraph"
+  },
+  "default_styles": {
+    "paragraph": "缩进正文",
+    "table_cell": "表文字",
+    "fallback": "Normal"
+  },
+  "template_settings": {
+    "cover_end_markers": ["一、", "背景", "## ", "# "],
+    "preserve_cover": true
+  }
+}
