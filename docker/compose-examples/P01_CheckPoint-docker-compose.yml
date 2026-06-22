@@ -1,0 +1,22 @@
+# === 放到 P01_CheckPoint/ 目录下，改名为 docker-compose.yml 即可使用 ===
+# 也可以直接在项目根目录执行：
+#   docker compose -f tools/docker/compose-examples/P01_CheckPoint-docker-compose.yml up
+
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: tools/docker/Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: >
+      sh -c "
+        pip install flask pandas openpyxl 2>/dev/null &&
+        python app.py
+      "
+    restart: unless-stopped

@@ -1,0 +1,33 @@
+version: "3.9"
+
+# ============================================================
+# 示例：为 P01_CheckPoint（Flask 数据仪表盘）配置 Docker 环境
+# 用法：
+#   docker compose -f tools/docker/docker-compose.yml up
+# ============================================================
+
+services:
+  flask-app:
+    build:
+      context: ../
+      dockerfile: tools/docker/Dockerfile
+    container_name: checkpoint-dash
+    ports:
+      - "5001:5001"
+    volumes:
+      # 挂载整个项目目录，代码修改实时生效（不用重建镜像）
+      - ../P01_CheckPoint:/app
+    working_dir: /app
+    command: >
+      sh -c "
+        pip install --no-cache-dir -r requirements.txt 2>/dev/null || echo '无 requirements.txt' &&
+        python app.py
+      "
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    restart: unless-stopped
+
+  # 按需添加其他服务（数据库、Redis 等）
+  # redis:
+  #   image: redis:7-alpine
