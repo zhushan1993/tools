@@ -367,8 +367,8 @@ def transcribe_audio(audio_path, language='zh-CN', engine='google'):
                                     )
                                     audio_segment.export(temp_wav, format='wav')
 
-                            # 加载模型（第一次会下载） - 使用较小的模型以节省内存
-                            model_size = "tiny"  # tiny(72MB), base(140MB), small(500MB), medium(1.5GB), large(3GB)
+                            # 加载模型（第一次会下载）
+                            model_size = "large"  # tiny(72MB), base(140MB), small(500MB), medium(1.5GB), large(3GB)
                             model = whisper.load_model(model_size)
 
                             # 转录，禁用fp16（CPU不支持），带超时保护
@@ -482,8 +482,8 @@ def transcribe_with_timestamps(audio_path, language='zh-CN', chunk_duration=30, 
             import whisper
             import numpy as np
 
-            # 加载模型（使用较小的模型以节省内存）
-            model_size = "tiny"  # tiny(72MB), base(140MB), small(500MB), medium(1.5GB), large(3GB)
+            # 加载模型
+            model_size = "large"  # tiny(72MB), base(140MB), small(500MB), medium(1.5GB), large(3GB)
             print(f"加载Whisper模型: {model_size}")
             model = whisper.load_model(model_size)
 
@@ -523,12 +523,12 @@ def transcribe_with_timestamps(audio_path, language='zh-CN', chunk_duration=30, 
 
             # 定义转录函数（用于超时包装）
             def transcribe_func():
-                return model.transcribe(audio_path, language=whisper_language, fp16=False, verbose=None)
+                return model.transcribe(audio_path, language=whisper_language, fp16=False, verbose=False)
 
             # 执行转录（带超时保护），禁用fp16（CPU不支持）
             # 超时时间 = 音频时长 × 3 + 30秒（安全余量）
             audio_duration = duration_sec if 'duration_sec' in locals() else 30
-            timeout_seconds = min(audio_duration * 3 + 30, 600)  # 最长10分钟
+            timeout_seconds = audio_duration * 3 + 30  # 超时 = 音频时长×3+30秒
 
             print(f"开始转录，超时时间: {timeout_seconds//60}分{timeout_seconds%60}秒...")
             result = run_with_timeout(transcribe_func, timeout=timeout_seconds, default=None)
@@ -572,10 +572,10 @@ def transcribe_with_timestamps(audio_path, language='zh-CN', chunk_duration=30, 
     transcripts = []
     total_seconds = 0
 
-    # 设置进度条（暂时禁用tqdm以调试）
-    use_tqdm = False
-    iterator = enumerate(chunks)
     print(f"开始转录 {len(chunks)} 个音频片段...")
+
+    from tqdm import tqdm
+    iterator = tqdm(enumerate(chunks), total=len(chunks), unit="片段", desc="转录进度")
 
     # 温度监控频率：每处理5个片段检查一次（暂时禁用）
     temp_check_frequency = 1000000  # 很大的数，实际上禁用检查
